@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block heading %}
+    <h1>Birthday Reminder</h1>
+{% endblock %}
+
+{% block description %}
+    <p class="lead">Need more information. </p>
+    <a class="btn btn-lg btn-success" href="{% url 'drchrono_login_done' %}" target="_self" title="Drchrono">Log in</a>
+</p>
+{% endblock %}
