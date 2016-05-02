@@ -2,8 +2,11 @@
 {% load staticfiles %}
 
 {% block heading %}
+<h2>About</h2>
 {% endblock %}
 
-{% block description %}This is the about page. Need to add more information. {% endblock %}
+{% block description %}
+    <p class="lead">{% if username %}Welcome, <strong>{{ username}}</strong>. {% endif %}This is a birthday reminder system authorized by <a href="https://www.drchrono.com">Drchrono</a> API. You can use this system to send Happy Birthday information to your patients. {% if not username %}If you want to use this system, please sign in or sign up with Drchrono in the following. {% endif %}</p>
+{% endblock %}
 
 {% block body %}{% endblock %}

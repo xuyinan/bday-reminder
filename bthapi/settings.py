@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'reminder', 
+    'reminder',
+    'oauth', 
     # 'oauth2_provider', # for django-oauth toolkit
     # 'corsheaders',
 ]

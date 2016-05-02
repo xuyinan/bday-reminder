@@ -6,10 +6,12 @@
 {% endblock %}
 
 {% block description %}
-    {% if user.is_authenticated %}
-        Please submit Contact information. 
+    {% if username %}
+        <p class="lead">Welcome, <strong>{{ username}}</strong>. Please submit your information. We will contact you soon.</p>
     {% else %}
         <p class="lead">This page is only valid for authenticated users. Please</p>
-        <p><a class="btn btn-lg btn-default" href="{% url 'signin' %}" role="button">Sign in</a> <a class="btn btn-lg btn-success" href="{% url 'signup' %}" role="button">Sign up today</a></p>
+        <p><a class="btn btn-lg btn-default" href="{% url 'signin' %}" role="button">Sign in</a> <a class="btn btn-lg btn-success" href="{% url 'signup' %}" role="button">Sign up</a></p>
     {% endif %}
 {% endblock %}
+
+{% block body %}{% endblock %}

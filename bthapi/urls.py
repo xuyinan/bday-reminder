@@ -22,9 +22,9 @@ from . import views
 
 
 urlpatterns = [
-    # url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    # url(r'^', include('reminder.urls')),
     url(r'^oauth/', include('oauth.urls')), 
-    url(r'^login/', views.login),
+    # url(r'^login/', views.login),
     url(r'^reminder/', include('reminder.urls')),
     url(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
