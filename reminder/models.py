@@ -10,6 +10,10 @@ class DoctorProfile(models.Model):
     is_doctor = models.BooleanField(default=False)
     num_of_patients = models.IntegerField(default=0)
 
+    def save(self, *args, **kwargs):
+        self.num_of_patients = max(0, self.num_of_patients)
+        super(DoctorProfile, self).save(*args, **kwargs)
+
     def __unicode__(self): 
         return self.username
 

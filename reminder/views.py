@@ -274,7 +274,8 @@ def birthday_email_done(request):
 
         # Add this message to message history
         patients_name = [patient.name for patient in patients_with_email]
-        LogHistory.objects.create(time=datetime.datetime.now(), 
+        LogHistory.objects.create(
+            time=datetime.datetime.now(), 
             doctor=doctor, 
             patients=', '.join(patients_name), 
             birthday_message=True, 
@@ -349,7 +350,8 @@ def custom_email_done(request):
 
         # Add this message to message history
         patients_name = [patient.name for patient in patients_with_email]
-        LogHistory.objects.create(time=datetime.datetime.now(), 
+        LogHistory.objects.create(
+            time=datetime.datetime.now(), 
             doctor=doctor, 
             patients=', '.join(patients_name), 
             birthday_message=False, 
