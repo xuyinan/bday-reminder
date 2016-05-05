@@ -5,3 +5,16 @@
     <h1>Birthday Reminder</h1>
 {% endblock %}
 
+
+{% block body %}
+    <p class="lead text-left-align">{% if username %}Welcome, <strong>{{ username}}</strong>. {% endif %}This is a birthday reminder system authorized by <a href="https://www.drchrono.com">Drchrono</a> API. You can use this system to send Happy Birthday information to your patients. {% if not username %}If you want to use this system, please sign in or sign up with Drchrono in the following. {% endif %}</p>
+    <p>
+      {% if username %}
+        <a class="btn btn-lg btn-success" href="{% url 'usesystem' %}" target="_self" title="Drchrono">Use this system Now</a>
+      {% else %}
+        <a class="btn btn-lg btn-default" href="{% url 'signin' %}" role="button">Sign in</a> 
+        <a class="btn btn-lg btn-success" href="{% url 'signup' %}" role="button">Sign up</a>
+      {% endif %}
+    </p>
+{% endblock %}
+

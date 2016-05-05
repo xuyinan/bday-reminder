@@ -23,8 +23,8 @@
         {% csrf_token %}
         <div class="form-group label-left-align">
             <!-- Name -->
-            <label class="control-label" for="name">Your name</label>
-            <input id="textinput" name="name" type="text" placeholder="Enter your name" class="form-control" required="">  
+            <label class="control-label" for="name">Your name (optional):</label>
+            <input id="textinput" name="name" type="text" placeholder="Enter your name" class="form-control">  
             <br/>
 
             <!-- Email -->
@@ -33,12 +33,12 @@
             <br/>
 
             <!-- Subject -->
-            <label class="control-label label-left-align" for="textinput">Subject</label>
+            <label class="control-label label-left-align" for="textinput">Subject (required):</label>
             <input id="textinput" name="subject" type="text" placeholder="What do you want to talk about?" class="form-control" required="">
             <br/>
 
             <!-- Message -->
-            <label class="control-label" for="textarea" >Message</label>
+            <label class="control-label" for="textarea" >Message (required):</label>
             <textarea rows="10" cols="70" id="textarea" name="message" class="form-control" placeholder="Type your message here."></textarea>
         </div>
 
