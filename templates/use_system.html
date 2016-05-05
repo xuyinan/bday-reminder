@@ -19,6 +19,7 @@
 
         <a class="btn btn-lg btn-default" href="{% url 'birthday_email_send' %}" role="button">Birthday Email</a> 
         <a class="btn btn-lg btn-success" href="{% url 'custom_email' %}" role="button">Custom Email</a>
+        <a class="btn btn-lg btn-default" href="{% url 'message_history' %}" role="button">Message History</a>
     {% else %}
         <p class="lead text-left-align">You are not a doctor and cannot send emails to your patients. Thank you. </p>
     {% endif %}

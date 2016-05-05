@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block heading %}
+    <h2>Message History</h2>
+{% endblock %}
+
+{% block body %}
+    
+    {% if message_histories %}
+
+        <p class="lead text-left-align">
+            The following is your message history:
+        </p>
+        <ul>
+            {% for message in message_histories %}
+                {% if message.birthday_message %}
+                    <li><p class="lead text-left-align">{{ message.time }}, you sent Birthday Email to {{message.patients}}. </p></li>
+                {% else %}
+                    <li><p class="lead text-left-align">{{ message.time }}, you sent Custom Email with subject "{{message.subject}}" to {{message.patients}}. </p></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="lead text-left-align">
+            Currently, you do not send any messages. 
+        </p>
+    {% endif %}
+
+    <p class="lead text-left-align">Thank you. </p>
+{% endblock %}
+

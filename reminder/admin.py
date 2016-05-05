@@ -1,9 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from models import UserProfile
 from reminder.models import DoctorProfile, PatientProfile, LogHistory
-
 
 
 class DoctorAdmin(admin.ModelAdmin):
@@ -15,8 +13,6 @@ class PatientAdmin(admin.ModelAdmin):
 class LogAdmin(admin.ModelAdmin):
     list_display = ('time', 'doctor', 'patients', 'birthday_message', 'subject', 'message_path')
 
-
-admin.site.register(UserProfile)
 
 admin.site.register(DoctorProfile, DoctorAdmin)
 admin.site.register(PatientProfile, PatientAdmin)

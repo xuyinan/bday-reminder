@@ -44,7 +44,8 @@ def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     # logout(request)
     try:
-        OauthUserProfile.objects.filter(username=request.session['username']).delete()
+        if not TEST_WEBSITE:
+            OauthUserProfile.objects.filter(username=request.session['username']).delete()
         request.session.pop('username')
     except Exception, e:
         print "logout error-------------------"
@@ -115,7 +116,10 @@ def use_system(request):
     context_dict['username'] = request.session['username']
 
     # Insert Patients List to PatientProfile Table which will be used in the following two pages. 
-    user = OauthUserProfile.objects.get(username=request.session['username'])
+    user = OauthUserProfile.objects.filter(username=request.session['username'])
+    # No user exist in OauthUserProfile, redirect to login page
+    if not user:
+        return HttpResponseRedirect('/oauth/drchrono/login/')
 
     # query doctor profile 
     doctor = DoctorProfile.objects.get(username=request.session['username'])
@@ -125,15 +129,12 @@ def use_system(request):
     if not doctor.is_doctor:
         return render_to_response('use_system.html', context_dict, context)
 
-    # No user exist in OauthUserProfile, redirect to login page
-    if not user:
-        return HttpResponseRedirect('/oauth/drchrono/login/')
     
     # request Patients from API
     patients = []
     request_success = False
 
-    access_token = user.access_token
+    access_token = user[0].access_token
     headers = {
         'Authorization': 'Bearer %s' % access_token,
     }
@@ -206,6 +207,7 @@ def birthday_email_send(request):
             context_dict['patients_birthday_today'] = patients_birthday_today
             context_dict['patients_without_birthday'] = patients_without_birthday
 
+            
     return render_to_response('birthday_email.html', context_dict, context)
 
 
@@ -215,8 +217,6 @@ def birthday_email_done(request):
 
     if request.method == 'POST':
         patients_list = request.POST.getlist('patients_chosen', [])
-
-        # patients_list = patients_list[1]
         
         patients_with_email = []
         patients_without_email = []
@@ -234,6 +234,19 @@ def birthday_email_done(request):
 
             else:
                 patients_without_email.append(patient)
+
+        patients_name = [patient.name for patient in patients_with_email]
+
+        print ', '.join(patients_name)
+
+        LogHistory.objects.create(time=datetime.datetime.now(), 
+            doctor=doctor, 
+            patients=', '.join(patients_name), 
+            birthday_message=True, 
+            subject=None, 
+            message_path=None
+        )
+
         context_dict['patients_with_email'] = patients_with_email
         context_dict['patients_without_email'] = patients_without_email
         context_dict['birthday_flag'] = True
@@ -287,6 +300,17 @@ def custom_email_done(request):
                 send_email(subject=subject, message=message, to_addr=email)
             else:
                 patients_without_email.append(patient)
+
+        patients_name = [patient.name for patient in patients_with_email]
+
+        LogHistory.objects.create(time=datetime.datetime.now(), 
+            doctor=doctor, 
+            patients=', '.join(patients_name), 
+            birthday_message=False, 
+            subject=subject, 
+            message_path=None
+        )
+
         context_dict['patients_with_email'] = patients_with_email
         context_dict['patients_without_email'] = patients_without_email
         context_dict['birthday_flag'] = False
@@ -294,4 +318,19 @@ def custom_email_done(request):
 
     return render_to_response('use_system_done.html', context_dict, context)
 
+
+def message_history(request):
+    context_dict = {}
+    context = RequestContext(request)
+
+    message_histories = []
+
+    if 'username' in request.session:
+        context_dict['username'] = request.session['username']
+        doctor = DoctorProfile.objects.get(username=request.session['username'])
+        message_histories = LogHistory.objects.filter(doctor=doctor)
+
+    context_dict['message_histories'] = message_histories
+
+    return render_to_response('message_history.html', context_dict, context)
 

@@ -14,6 +14,8 @@ urlpatterns = [
     url(r'^usesystem/custom/message/$', views.custom_email_send, name='custom_email_send'), 
     url(r'^usesystem/custom/message/done/$', views.custom_email_done, name='custom_email_done'), 
 
+    url(r'^usesystem/history/$', views.message_history, name='message_history'), 
+
     url(r'^signin/$', views.user_signin, name='signin'), 
     url(r'^signup/$', views.user_signup, name='signup'), 
     url(r'^logout/$', views.user_logout, name='logout'), 
