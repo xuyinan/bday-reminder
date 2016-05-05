@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block heading %}
+    {% if is_doctor == True %}
+        <h2>Choose Email Type</h2>
+    {% else %}
+        <h2>Not Doctor</h2>
+    {% endif %}
+    
+{% endblock %}
+
+
+{% block body %}
+    {% if is_doctor %}
+        <p class="lead text-left-align">{{is_doctor}}In this page, you can reach two things: one is to send Birthday Email to patients whose birthday is today, another is to send custom email to your patients which you can edit. </p>
+
+        <a class="btn btn-lg btn-default" href="{% url 'birthday_email_send' %}" role="button">Birthday Email</a> 
+        <a class="btn btn-lg btn-success" href="{% url 'custom_email' %}" role="button">Custom Email</a>
+    {% else %}
+        <p class="lead text-left-align">You are not a doctor and cannot send emails to your patients. Thank you. </p>
+    {% endif %}
+
+{% endblock %}

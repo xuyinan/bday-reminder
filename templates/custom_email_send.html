@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block heading %}
+    <h2>Write Email</h2>
+{% endblock %}
+
+
+{% block body %}
+    <form action="{% url 'custom_email_done' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group label-left-align">
+            <!-- Subject -->
+            <label class="control-label label-left-align" for="textinput">Subject</label>
+            <input id="textinput" name="subject" type="text" placeholder="What do you want to talk about?" class="form-control" required="">
+            <br/>
+
+            <!-- Message -->
+            <label class="control-label" for="textarea" >Message</label>
+            <textarea rows="10" cols="70" id="textarea" name="message" class="form-control" placeholder="Type your message here." required=""></textarea>
+        </div>
+
+        <!-- Button -->
+        <button class="btn btn-lg btn-default" type="submit" value="Submit">Submit</button>
+    </form>
+
+{% endblock %}

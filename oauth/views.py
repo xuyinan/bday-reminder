@@ -7,6 +7,8 @@ import json
 import datetime, pytz
 
 from oauth.models import OauthUserProfile
+from reminder.models import DoctorProfile
+
 
 
 CALLBACK_URI = 'http://yinanxu.pythonanywhere.com/oauth/drchrono/login/done'
@@ -86,13 +88,26 @@ def get_username(access_token):
         # You can store this in your database along with the tokens
         username = data['username']
 
+        # Add profile to DoctorProfile Table to check email authorization
+        is_doctor = data['is_doctor']
+        doctor = DoctorProfile.objects.get(username=username)
+        if not doctor:
+            DoctorProfile.objects.create(
+                username=username, 
+                is_doctor=is_doctor, 
+                num_of_patients=0
+            )
+        else:
+            doctor.is_doctor = is_doctor
+            doctor.save()
+
     return username
 
 
 def drchrono_auth(request):
 
-    # if 'username' in request.session:
-    #     return HttpResponseRedirect(HOMEPAGE)
+    if 'username' in request.session:
+        return HttpResponseRedirect(HOMEPAGE)
 
     if 'error' in request.GET or 'code' not in request.GET:
         return HttpResponseRedirect('/reminder/')
@@ -130,11 +145,12 @@ def drchrono_auth(request):
         user.expires_timestamp=expires_timestamp
         user.save()
 
-    # request.session['username'] = username
+    request.session['username'] = username
+    request.session.set_expiry(172800)
 
     next = HOMEPAGE
-    # if 'state' in request.GET:
-    #     next = request.GET['state']
+    if 'state' in request.GET:
+        next = request.GET['state']
 
     return HttpResponseRedirect(HOMEPAGE)
 

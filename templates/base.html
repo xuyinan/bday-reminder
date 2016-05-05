@@ -21,7 +21,8 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/jumbotron-narrow.css' %}" rel="stylesheet">
-    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'css/signin.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -42,12 +43,12 @@
           {% block menu %}
           <ul class="nav nav-pills pull-right">
             <li role="presentation"><a href="{% url 'index' %}">Home</a></li>
-            <li role="presentation"><a href="{% url 'use' %}">Use</a></li>
-            {% if username %}
+            <li role="presentation"><a href="{% url 'usesystem' %}">Use</a></li>
+            <!-- {% if username %}
               <li role="presentation"><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
               <li role="presentation"><a href="{% url 'signin' %}">Sign in</a></li>
-            {% endif %}
+            {% endif %} -->
             <li role="presentation"><a href="{% url 'about' %}">About</a></li>
             <li role="presentation"><a href="{% url 'contact' %}">Contact</a></li>
           </ul>
@@ -58,11 +59,11 @@
 
       <div class="jumbotron">
         {% block heading %}<h1>Birthday Reminder</h1>{% endblock %}
-        {% block description %}
-        <p class="lead">{% if username %}Welcome, <strong>{{ username}}</strong>. {% endif %}This is a birthday reminder system authorized by <a href="https://www.drchrono.com">Drchrono</a> API. You can use this system to send Happy Birthday information to your patients. {% if not username %}If you want to use this system, please sign in or sign up with Drchrono in the following. {% endif %}</p>
+        {% block body %}
+        <p class="lead text-left-align">{% if username %}Welcome, <strong>{{ username}}</strong>. {% endif %}This is a birthday reminder system authorized by <a href="https://www.drchrono.com">Drchrono</a> API. You can use this system to send Happy Birthday information to your patients. {% if not username %}If you want to use this system, please sign in or sign up with Drchrono in the following. {% endif %}</p>
         <p>
           {% if username %}
-            <a class="btn btn-lg btn-success" href="{% url 'use' %}" target="_self" title="Drchrono">Use this system Now</a>
+            <a class="btn btn-lg btn-success" href="{% url 'usesystem' %}" target="_self" title="Drchrono">Use this system Now</a>
           {% else %}
             <a class="btn btn-lg btn-default" href="{% url 'signin' %}" role="button">Sign in</a> 
             <a class="btn btn-lg btn-success" href="{% url 'signup' %}" role="button">Sign up</a>
@@ -70,12 +71,6 @@
         </p>
         {% endblock %}
       </div>
-
-      {% block body %}
-      <div class="row marketing">
-        <p>This is the body of this website. </p>
-      </div>
-      {% endblock %}
 
       <footer class="footer">
         <p>&copy; 2016 Yinan Xu</p>

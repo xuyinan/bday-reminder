@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block heading %}
+    <h2>Choose Patients</h2>
+{% endblock %}
+
+
+{% block body %}
+    {% if patients %}
+    <p class="lead text-left-align">The following person is your patients. Please choosen the patients you want to send Birthday Email. You can choose multiple patients using COMMAND (Mac OS) or CONTROL (Windows). </p>
+        <form action="{% url 'custom_email_send' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <select id="select" name="patients_chosen" class="form-control select-h" multiple="multiple">
+                    {% for patient in patients %}
+                        <option value="{{ patient.name }}">{{ patient.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br/>
+            <button class="btn btn-lg btn-default" type="submit" value="Submit">Submit</button>
+            <button class="btn btn-lg btn-default" type="reset" value="Reset">Reset</button>
+        </form>
+
+    {% else %}
+        <p class="lead text-left-align">You do not have patients. </p>
+    {% endif %}
+    <script src="{% static 'js/myjs.js' %}"></script>
+
+{% endblock %}

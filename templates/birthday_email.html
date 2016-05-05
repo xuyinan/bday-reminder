@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block heading %}
+    <h2>Choose Patients</h2>
+{% endblock %}
+
+
+{% block body %}
+    {% if patients_birthday_today %}
+    <p class="lead text-left-align">Today is your following patients' birthday. You can send Happy Birthday Email clicking on SEND button. </p>
+        <form action="{% url 'birthday_email_done' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <select id="select" name="patients_chosen" class="form-control select-h" multiple="multiple">
+                    {% for patient in patients_birthday_today %}
+                        <option value="{{ patient.name }}">{{ patient.name }} {{ patient.date_of_birth }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br/>
+            <button class="btn btn-lg btn-default" type="submit" value="Submit">SEND</button>
+        </form>
+
+
+    {% else %}
+        <p class="lead text-left-align">No patients have birthday today. </p>
+    {% endif %}
+
+    {% if patients_without_birthday %}
+    <br/>
+        <p class="lead text-left-align">The following of patients do not have Date of Birth in their profile.</p>
+        {% for patient in patients_without_birthday %}
+            <p class="lead text-left-align">{{ patient.name }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <script src="{% static 'js/myjs.js' %}"></script>
+
+{% endblock %}

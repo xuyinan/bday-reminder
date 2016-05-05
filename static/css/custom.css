@@ -1,0 +1,27 @@
+
+.select-h { 
+    font-size:18px; 
+}
+
+.text-left-align{
+    text-align:left;
+    text-indent:35px;
+}
+
+.label-left-align{
+    text-align:left;
+}
+
+.red-choice{
+    background:#C22D0D;
+}
+
+.green-choice{
+    background:#348318;
+}
+
+.yellow-choice{
+    background:yellow;
+}
+
+

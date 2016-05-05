@@ -1,0 +1,7 @@
+Dear {{patient_name}}:
+
+Toady is your Birthday. Happy Birthday!
+
+
+Best wishes, 
+{{doctor_name}}

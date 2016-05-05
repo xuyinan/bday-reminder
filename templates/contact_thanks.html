@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block heading %}
+    <h2>Thanks</h2>
+{% endblock %}
+
+{% block body %}
+    <p class="lead text-left-align">{% if username %}Hi, <strong>{{ username}}</strong>. {% endif %}Thanks for submitting the information. We will contact you or make improvements soon. </p>
+{% endblock %}
+
+
+

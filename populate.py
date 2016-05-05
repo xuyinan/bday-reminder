@@ -1,4 +1,30 @@
+#! urs/bin/python
 
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bthapi.settings')
+
+import django
+django.setup()
+
+# For doctor & patient
+from reminder.models import DoctorProfile, PatientProfile, LogHistory
+
+
+doctor = DoctorProfile.objects.get(username='yinanxu')
+patients = PatientProfile.objects.filter(doctor=doctor)
+
+for patient in patients:
+    patient.email = 'birthdayapi@gmail.com'
+    patient.save()
+
+
+patients = PatientProfile.objects.filter(name='Jenny Harris')
+for patient in patients:
+    patient.date_of_birth = '1980-09-09'
+    patient.email = None
+    patient.save()
+
+# For OAuth
 from oauth.models import OauthUserProfile
 
 
