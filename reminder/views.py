@@ -7,7 +7,6 @@ from django.template.loader import get_template
 
 import requests, datetime, json
 
-# from reminder.forms import UserForm, UserProfileForm
 from oauth.models import OauthUserProfile
 from reminder.models import DoctorProfile, PatientProfile, LogHistory
 from utils import send_email
@@ -20,13 +19,8 @@ def index(request):
     context_dict = {}
     context = RequestContext(request)
 
-    # if TEST_WEBSITE:
-    #     request.session['username'] = 'yinanxu'
-
     if 'username' in request.session:
         context_dict['username'] = request.session['username']
-    else:
-        return HttpResponseRedirect('/oauth/drchrono/login/')
 
     return render_to_response('index.html', context_dict, context)
 
@@ -34,7 +28,12 @@ def index(request):
 def user_signin(request):
     context_dict = {}
     context = RequestContext(request)
-    return HttpResponseRedirect('/oauth/drchrono/login/')
+
+    if TEST_WEBSITE:
+        request.session['username']='yinanxu'
+        return HttpResponseRedirect('/reminder/')
+    else:
+        return HttpResponseRedirect('/oauth/drchrono/login/')
 
 
 def user_signup(request):
@@ -45,9 +44,10 @@ def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     # logout(request)
     try:
-        OauthUserProfile.objects.get(username=request.session['username']).delete()
+        OauthUserProfile.objects.filter(username=request.session['username']).delete()
         request.session.pop('username')
     except Exception, e:
+        print "logout error-------------------"
         None
 
     # Take the user back to the homepage.
@@ -109,16 +109,20 @@ def use_system(request):
     context_dict = {}
     context = RequestContext(request)
 
+    if 'username' not in request.session:
+        return HttpResponseRedirect('/reminder/signin/')
+
+    context_dict['username'] = request.session['username']
+
     # Insert Patients List to PatientProfile Table which will be used in the following two pages. 
     user = OauthUserProfile.objects.get(username=request.session['username'])
 
     # query doctor profile 
     doctor = DoctorProfile.objects.get(username=request.session['username'])
     # render the authorization to send emails
-    is_doctor = doctor.is_doctor
-    context_dict['is_doctor'] = is_doctor
+    context_dict['is_doctor'] = doctor.is_doctor
     # This is user is not a doctor
-    if not is_doctor:
+    if not doctor.is_doctor:
         return render_to_response('use_system.html', context_dict, context)
 
     # No user exist in OauthUserProfile, redirect to login page
@@ -233,6 +237,7 @@ def birthday_email_done(request):
         context_dict['patients_with_email'] = patients_with_email
         context_dict['patients_without_email'] = patients_without_email
         context_dict['birthday_flag'] = True
+        context_dict['username'] = request.session['username']
 
     return render_to_response('use_system_done.html', context_dict, context)
 
@@ -258,6 +263,7 @@ def custom_email_send(request):
     if request.method == 'POST':
         patients_chosen = request.POST.getlist('patients_chosen')
         request.session["patients_chosen"] = patients_chosen
+        context_dict['username'] = request.session['username']
 
     return render_to_response('custom_email_send.html', context_dict, context)
 
@@ -284,6 +290,7 @@ def custom_email_done(request):
         context_dict['patients_with_email'] = patients_with_email
         context_dict['patients_without_email'] = patients_without_email
         context_dict['birthday_flag'] = False
+        context_dict['username'] = request.session['username']
 
     return render_to_response('use_system_done.html', context_dict, context)
 

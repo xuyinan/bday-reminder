@@ -121,7 +121,7 @@ def drchrono_auth(request):
 
 
     # get USER
-    user = OauthUserProfile.objects.get(username=username)
+    user = OauthUserProfile.objects.filter(username=username)
     if not user:
         # create USER
         '''
@@ -140,6 +140,7 @@ def drchrono_auth(request):
         )
     else:
         # renew USER
+        user = user[0]
         user.access_token = access_token
         user.refresh_token=refresh_token
         user.expires_timestamp=expires_timestamp
